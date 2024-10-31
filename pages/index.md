@@ -3,6 +3,8 @@ title: SUPERMARKET ANALYSIS
 ---
 
 ## Dashboard
+
+
 ```sql categories
   select
       category
