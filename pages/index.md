@@ -144,6 +144,7 @@ select *, (revenue/orders) as AOV from aov
   yFmt=usd0k
   labels=true
   labelSize=14
+  downloadableImage=true
   title="Monthly Revenue by {inputs.product.value}"
 />
 <BarChart
@@ -153,6 +154,7 @@ select *, (revenue/orders) as AOV from aov
   swapXY=true
   yFmt=usd0k
   labels=true
+  downloadableImage=true
   labelSize=14
   title="Revenue by Product Category"
 />
@@ -162,6 +164,7 @@ select *, (revenue/orders) as AOV from aov
   y=rating
   swapXY=true
   labels=true
+  downloadableImage=true
   labelSize=14
   title="Average Rating by Product Category"
 />
@@ -172,6 +175,7 @@ select *, (revenue/orders) as AOV from aov
   y=orders
   yFmt=num
   labels=true
+  downloadableImage=true
   labelSize=14
   title="Monthly Orders by {inputs.product.value} Category"
 />
@@ -183,6 +187,7 @@ select *, (revenue/orders) as AOV from aov
   yFmt=usd
   labels=true
   labelSize=14
+  downloadableImage=true
   title="Monthly Average Order Value"
 />
 
@@ -195,6 +200,7 @@ select *, (revenue/orders) as AOV from aov
   yFmt=usd
   y2Fmt=num
   yAxisTitle=false
+  downloadableImage=true
   y2AxisTitle=false
   labels=true
   labelSize=14
@@ -209,6 +215,7 @@ select *, (revenue/orders) as AOV from aov
   y2AxisTitle=false
   y2=orders
   labels=true
+  downloadableImage=true
   labelSize=14
   title="Revenue, Orders by Gender"
 />
