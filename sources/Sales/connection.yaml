@@ -1,0 +1,10 @@
+# This file was automatically generated
+name: SalesData
+type: snowflake
+options:
+  account: uqviiry-ir83823
+  database: SUPERMARKET
+  warehouse: COMPUTE_WH
+  schema: PUBLIC
+  authenticator: userpass
+  resultPrefetch: 2
