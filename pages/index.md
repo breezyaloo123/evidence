@@ -144,7 +144,7 @@ select *, (revenue/orders) as AOV from aov
   yFmt=usd0k
   labels=true
   labelSize=14
-  title="Monthly Revenue by {inputs.product.value} Category"
+  title="Monthly Revenue by {inputs.product.value}"
 />
 <BarChart
   data={prd_revenue}
@@ -227,7 +227,7 @@ select *, (revenue/orders) as AOV from aov
 
 ## Actions
 
-- Invest in Marketing and promotions for this category to further increase revenue.
+- Invest in Marketing and promotions for **Food and Beverages** to further increase revenue.
 
 
 ## Follow me
