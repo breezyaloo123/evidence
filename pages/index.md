@@ -2,7 +2,8 @@
 title: SUPERMARKET ANALYSIS
 ---
 
-## Dashboard
+## Tableau de bord
+
 
 
 ```sql categories
