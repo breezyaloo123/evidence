@@ -38,15 +38,22 @@ select
    sum(cogs) as cogs
 from SalesData.Sales
 ```
+```sql branch
+select 
+   branch
+from SalesData.Sales
+order by branch
+```
 
 ```sql monthly_orders_revenue
 select 
    date_trunc('month', cast(date as date)) as month,
    count(*) as orders,
    sum(total) as revenue,
-   product_line
+   product_line,
+   branch
 from SalesData.Sales
-where product_line like '${inputs.product.value}'
+where product_line like '${inputs.product.value}' and branch like '${inputs.branch_button_group}'
 group by all
 ```
 <!-- and date between '${inputs.date_range_from_query.start}' and '${inputs.date_range_from_query.end}' -->
@@ -105,6 +112,8 @@ select *, (revenue/orders) as AOV from aov
   from SalesData.Sales
    group by all
 ```
+
+
 **<BigValue 
   data={orders} 
   value=orders
@@ -131,7 +140,14 @@ select *, (revenue/orders) as AOV from aov
 />**
 
 <Dropdown data={products} name=product value=product_line title="Select a Product"
-/> 
+/> <ButtonGroup
+    data={branch} 
+    name=branch_button_group
+    value=branch
+    defaultValue='A'
+    display=tabs
+    />
+
 <!-- <DateRange
     name=date_range_from_query
     start=2019-01-01
@@ -139,16 +155,25 @@ select *, (revenue/orders) as AOV from aov
     title="Select a Date Range"
 /> -->
 
-
-<BarChart
+<LineChart
   data={monthly_orders_revenue}
   x=month
   y=revenue
-  yFmt=usd0k
+  yFmt=usd
   labels=true
   labelSize=14
+  yGridlines=false
+  title="Monthly Revenue by {inputs.product.value} for the branch {inputs.branch_button_group}"
+/>
+<LineChart
+  data={monthly_orders_revenue}
+  x=month
+  y=orders
+  yFmt=num
+  labels=true
   downloadableImage=true
-  title="Monthly Revenue by {inputs.product.value}"
+  labelSize=14
+  title="Monthly Orders by {inputs.product.value} for the branch {inputs.branch_button_group}"
 />
 <BarChart
   data={prd_revenue}
@@ -172,16 +197,7 @@ select *, (revenue/orders) as AOV from aov
   title="Average Rating by Product Category"
 />
 
-<BarChart
-  data={monthly_orders_revenue}
-  x=month
-  y=orders
-  yFmt=num
-  labels=true
-  downloadableImage=true
-  labelSize=14
-  title="Monthly Orders by {inputs.product.value} Category"
-/>
+
 
 <BarChart
   data={orders_revenue_prd_ctg}
