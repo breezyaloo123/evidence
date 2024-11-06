@@ -6,12 +6,7 @@ title: SUPERMARKET ANALYSIS
 
 
 
-```sql categories
-  select
-      category
-  from needful_things.orders
-  group by category
-```
+
 
 ```sql orders
 select 
@@ -47,13 +42,13 @@ order by branch
 
 ```sql monthly_orders_revenue
 select 
-   date_trunc('month', cast(date as date)) as month,
+   date_trunc('${inputs.time_grain.value}', cast(date as date)) as date,
    count(*) as orders,
    sum(total) as revenue,
    product_line,
    branch
 from SalesData.Sales
-where product_line like '${inputs.product.value}' and branch like '${inputs.branch_button_group}'
+where product_line like '${inputs.product.value}' and branch like '${inputs.branch_button_group.value}'
 group by all
 ```
 <!-- and date between '${inputs.date_range_from_query.start}' and '${inputs.date_range_from_query.end}' -->
@@ -112,6 +107,24 @@ select *, (revenue/orders) as AOV from aov
   from SalesData.Sales
    group by all
 ```
+<Dropdown data={products} name=product value=product_line title="Select the Product"
+/> <Dropdown name=time_grain title="Select the time period">
+    <DropdownOption value=day/>
+    <DropdownOption value=week/>
+    <DropdownOption value=month/>
+    <DropdownOption value=quarter/>
+    <DropdownOption value=year/>
+ </Dropdown>
+
+ <Dropdown
+    data={branch} 
+    name=branch_button_group
+    value=branch
+    defaultValue='A'
+    display=tabs
+    title="Select the branch"
+    />
+
 
 
 **<BigValue 
@@ -139,14 +152,7 @@ select *, (revenue/orders) as AOV from aov
   fmt="usd"
 />**
 
-<Dropdown data={products} name=product value=product_line title="Select a Product"
-/> <ButtonGroup
-    data={branch} 
-    name=branch_button_group
-    value=branch
-    defaultValue='A'
-    display=tabs
-    />
+
 
 <!-- <DateRange
     name=date_range_from_query
@@ -155,26 +161,125 @@ select *, (revenue/orders) as AOV from aov
     title="Select a Date Range"
 /> -->
 
-<LineChart
+{#if inputs.time_grain.value == 'day'}
+
+ <LineChart
   data={monthly_orders_revenue}
-  x=month
+  x=date
   y=revenue
   yFmt=usd
   labels=true
   labelSize=14
   yGridlines=false
-  title="Monthly Revenue by {inputs.product.value} for the branch {inputs.branch_button_group}"
-/>
-<LineChart
+  title="Dayly Revenue by {inputs.product.value} for the branch {inputs.branch_button_group.value}"/>
+
+  {:else if inputs.time_grain.value == 'week'}
+  <LineChart
   data={monthly_orders_revenue}
-  x=month
+  x=date
+  y=revenue
+  yFmt=usd
+  labels=true
+  labelSize=14
+  yGridlines=false
+  title="Weekly Revenue by {inputs.product.value} for the branch {inputs.branch_button_group.value}"/>
+
+    {:else if inputs.time_grain.value == 'month'}
+  <LineChart
+  data={monthly_orders_revenue}
+  x=date
+  y=revenue
+  yFmt=usd
+  labels=true
+  labelSize=14
+  yGridlines=false
+  title="Monthly Revenue by {inputs.product.value} for the branch {inputs.branch_button_group.value}"/>
+
+    {:else if inputs.time_grain.value == 'quarter'}
+  <LineChart
+  data={monthly_orders_revenue}
+  x=date
+  y=revenue
+  yFmt=usd
+  labels=true
+  labelSize=14
+  yGridlines=false
+  title="Quarterly Revenue by {inputs.product.value} for the branch {inputs.branch_button_group.value}"/>
+
+{:else}
+
+ <LineChart
+  data={monthly_orders_revenue}
+  x=date
+  y=revenue
+  yFmt=usd
+  labels=true
+  labelSize=14
+  yGridlines=false
+  title="Yearly Revenue by {inputs.product.value} for the branch {inputs.branch_button_group.value}"/>
+
+{/if}
+
+
+{#if inputs.time_grain.value == 'day'}
+
+ <LineChart
+  data={monthly_orders_revenue}
+  x=date
   y=orders
   yFmt=num
   labels=true
-  downloadableImage=true
   labelSize=14
-  title="Monthly Orders by {inputs.product.value} for the branch {inputs.branch_button_group}"
-/>
+  yGridlines=false
+  title="Dayly Order by {inputs.product.value} for the branch {inputs.branch_button_group.value}"/>
+
+  {:else if inputs.time_grain.value == 'week'}
+  <LineChart
+  data={monthly_orders_revenue}
+  x=date
+  y=orders
+  yFmt=num
+  labels=true
+  labelSize=14
+  yGridlines=false
+  title="Weekly Order by {inputs.product.value} for the branch {inputs.branch_button_group.value}"/>
+
+    {:else if inputs.time_grain.value == 'month'}
+  <LineChart
+  data={monthly_orders_revenue}
+  x=date
+  y=orders
+  yFmt=num
+  labels=true
+  labelSize=14
+  yGridlines=false
+  title="Monthly Order by {inputs.product.value} for the branch {inputs.branch_button_group.value}"/>
+
+    {:else if inputs.time_grain.value == 'quarter'}
+  <LineChart
+  data={monthly_orders_revenue}
+  x=date
+  y=orders
+  yFmt=num
+  labels=true
+  labelSize=14
+  yGridlines=false
+  title="Quarterly Order by {inputs.product.value} for the branch {inputs.branch_button_group.value}"/>
+
+{:else}
+
+ <LineChart
+  data={monthly_orders_revenue}
+  x=date
+  y=orders
+  yFmt=num
+  labels=true
+  labelSize=14
+  yGridlines=false
+  title="Yearly Orders by {inputs.product.value} for the branch {inputs.branch_button_group.value}"/>
+
+{/if}
+
 <BarChart
   data={prd_revenue}
   x=product
