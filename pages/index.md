@@ -1,5 +1,6 @@
 ---
 title: SUPERMARKET ANALYSIS
+my_title: ""
 ---
 
 ## Tableau de bord
@@ -160,6 +161,8 @@ select *, (revenue/orders) as AOV from aov
     end=2019-12-31
     title="Select a Date Range"
 /> -->
+
+
 
 {#if inputs.time_grain.value == 'day'}
 
